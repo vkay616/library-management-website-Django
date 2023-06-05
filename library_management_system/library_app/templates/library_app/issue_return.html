@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>Please confirm if you want to {% if type == 'issue' %}issue {% else %}return{% endif %} {{ object.name }} by {{ object.author }}</p>
+    <!--POST request for switching status-->
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="submit" value="Yes" />
+    </form>
+{% endblock content %}

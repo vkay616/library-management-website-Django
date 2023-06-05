@@ -1,0 +1,18 @@
+/* main container for home page */
+.container {
+    display: grid;
+    grid-template-columns: 3fr 1.5fr;
+}
+
+/* container for list of available books */
+.book-list {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    text-align: center;
+}
+
+/* container for the summary of available books' list */
+.summary {
+    text-align: center;
+    padding: 5%;
+}

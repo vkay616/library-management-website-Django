@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<!--showing the number of books available for issuing-->
+{% if available_books_count > 0 %}
+    <h4>No. of books available for issuing: {{ available_books_count }}</h4>
+{% else %}
+    <h4>There are no books available for issuing right now!</h4>
+{% endif %}
+    <div class="container">
+        <div class="book-list">
+            <!--listing details of all the available books-->
+            {% for book in available_books %}
+                <div style="margin: 5%">
+                    <!--book's image-->
+                    <img src="{{ book.image.url }}" height=200/>
+                    <!--book's name and author's name-->
+                    <h4>{{ book.name }} | {{ book.author }}</h4>
+                </div>
+                <div>
+                    <!--summary of the book-->
+                    <p class="summary">{{ book.summary }}</p>
+                    <!--link for issuing the book-->
+                    <a href="{% url 'IssueBook' book.id %}">Issue</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="text-align:center;">
+            <!--listing all the issued books-->
+            <h4 style="text-align:center">My Issued Books</h4>
+            {% for book in issued_books %}
+                <!--book's image-->
+                <img src="{{ book.image.url }}" height=100/>
+                <!--book's name and author's name-->
+                <p>{{ book.name }} | {{ book.author }}</p>
+                <!--link for returning book-->
+                <a href="{% url 'ReturnBook' book.id %}">Return</a>
+                <br><br>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
