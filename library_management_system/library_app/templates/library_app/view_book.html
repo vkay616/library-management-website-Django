@@ -7,7 +7,7 @@
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
-                          <h5 class="card-title"><strong>{{ book.name }}</strong> by <em>{{ book.author }}</em></h5>
+                          <h5 style="text-align:center;" class="card-title"><strong>{{ book.name }}</strong> <br> <em>{{ book.author }}</em></h5>
                           <p class="card-text">{{ book.summary }}</p>
                           <p class="card-text">
                             {% if user.is_authenticated %}

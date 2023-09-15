@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 # creating Book model to store books in the database
@@ -23,6 +23,8 @@ class Book(models.Model):
     )
     # CharField to store the book's current status
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
+
+    issuer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     # string representation of the model
     def __str__(self) -> str:

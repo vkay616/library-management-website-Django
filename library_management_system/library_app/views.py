@@ -7,7 +7,7 @@ from .models import Book
 from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 
@@ -68,7 +68,10 @@ class BooksList(ListView):
         # adding the number of available books to context dictionary
         context['available_books_count'] = available_books_count
         # filtering and storing all the issued books in issued_books variable
-        issued_books = Book.objects.filter(status__startswith='i')
+        if self.request.user.is_authenticated:
+            issued_books = Book.objects.filter(issuer=self.request.user)
+        else:
+            issued_books = None
         # adding the list of issued books to context dictionary
         context['issued_books'] = issued_books
         # returning the modified context dictionary to the template
@@ -81,7 +84,7 @@ class IssueBook(UpdateView):
     model = Book
     # the list of fields that would be included in the form is empty
     # as we're only switching the 'status' of the book from available to issued.
-    fields = []
+    fields = ['issuer']
     # using a custom template name for the view
     template_name = 'library_app/issue_return.html'
 
@@ -93,6 +96,7 @@ class IssueBook(UpdateView):
         if request.method == "POST":
             # changing the 'status' of the book from available to issued
             book.status = "Issued by someone"
+            book.issuer = request.user
             # save the change
             book.save()
             # after successfully changing redirect back to home page
@@ -112,7 +116,7 @@ class ReturnBook(UpdateView):
     model = Book
     # the list of fields that would be included in the form is empty
     # as we're only switching the 'status' of the book from available to issued.
-    fields = []
+    fields = ['issuer']
     # using a custom template name for the view
     template_name = 'library_app/issue_return.html'
 
@@ -124,6 +128,7 @@ class ReturnBook(UpdateView):
         if request.method == "POST":
             # changing the 'status' of the book from issued to available
             book.status = "Available for issuing"
+            book.issuer = None
             # save the change
             book.save()
             # after successfully changing redirect back to home page

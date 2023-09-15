@@ -2,12 +2,12 @@
 {% block content %}
 <!--showing the number of books available for issuing-->
 {% if available_books_count > 0 %}
-    <h4 style="margin-left:15%; margin-bottom:2%;">No. of books available for issuing: {{ available_books_count }}</h4>
+    <h4 style="margin-left:25%; margin-bottom:2%;">No. of books available for issuing: {{ available_books_count }}</h4>
 {% else %}"
     <h4 style="margin-left:15%; margin-bottom:2%;">There are no books available for issuing right now!</h4>
 {% endif %}
     <div class="container">
-        <div class="book-list">
+        <div class="row row-cols-3 g-3">
             <!--listing details of all the available books-->
             {% for book in available_books %}
                 {% comment %} <div style="margin: 5%">
@@ -24,14 +24,16 @@
                         <a href="{% url 'IssueBook' book.id %}">Issue</a>
                     {% endif %}
                 </div> {% endcomment %}
-                <div class="card mb-3" style="width: 18rem;">
+                <div class="card mb-1 ms-3" style="width: 18rem;">
                     <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.name }}">
                     <div class="card-body">
-                      <h5 class="card-title">{{ book.name }} by <em>{{ book.author }}</em></h5>
+                      <h5 style="text-align:center;" class="card-title">{{ book.name }} <br> <em>{{ book.author }}</em></h5>
+                      <div style="text-align:center;">
                       <a href="{% url 'ViewBook' book.id %}" class="btn btn-primary">View</a>
                       {% if user.is_authenticated %}
                         <a href="{% url 'IssueBook' book.id %}" class="btn btn-primary">Issue</a>
-                      {% endif %}  
+                      {% endif %} 
+                      </div>
                     </div>
                 </div>
             {% endfor %}
@@ -45,7 +47,7 @@
                     <!--book's image-->
                     <img src="{{ book.image.url }}" height=100/>
                     <!--book's name and author's name-->
-                    <p><strong>{{ book.name }}</strong> | <em>{{ book.author }}</em></p>
+                    <p style="text-align:center;"><strong>{{ book.name }}</strong> <br> <em>{{ book.author }}</em></p>
                     <!--link for returning book-->
                     <a href="{% url 'ReturnBook' book.id %}" class="btn btn-success">Return</a>
                     <br><br>
